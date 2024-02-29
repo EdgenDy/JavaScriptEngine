@@ -1,9 +1,9 @@
 package js.runtime;
 
-import js.storage.Heap;
+import js.storage.JSHeap;
 
 public class JSStringPtr extends NamePtr {
-  public JSStringPtr(Heap heap, int index) {
+  public JSStringPtr(JSHeap heap, int index) {
     super(heap, index);
   }
 

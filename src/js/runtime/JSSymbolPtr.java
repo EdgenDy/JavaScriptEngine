@@ -1,9 +1,9 @@
 package js.runtime;
 
-import js.storage.Heap;
+import js.storage.JSHeap;
 
 public class JSSymbolPtr extends NamePtr {
-  public JSSymbolPtr(Heap heap, int index) {
+  public JSSymbolPtr(JSHeap heap, int index) {
     super(heap, index);
   }
 

@@ -1,9 +1,9 @@
 package js.runtime;
 
-import js.storage.Heap;
+import js.storage.JSHeap;
 
 public class OddballPtr extends JSValuePtr {
-  public OddballPtr(Heap heap, int index) {
+  public OddballPtr(JSHeap heap, int index) {
     super(heap, index);
   }
 

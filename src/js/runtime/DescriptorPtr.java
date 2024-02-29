@@ -1,9 +1,9 @@
 package js.runtime;
 
-import js.storage.Heap;
+import js.storage.JSHeap;
 
 public class DescriptorPtr extends JSValuePtr {
-  public DescriptorPtr(Heap heap, int index) {
+  public DescriptorPtr(JSHeap heap, int index) {
     super(heap, index);
   }
 
@@ -11,8 +11,8 @@ public class DescriptorPtr extends JSValuePtr {
     return toDescriptor().value;
   }
 
-  public int details() {
-    return toDescriptor().details;
+  public int attributes() {
+    return toDescriptor().attributes;
   }
 
   public Descriptor toDescriptor() {

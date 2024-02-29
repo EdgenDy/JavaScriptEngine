@@ -1,12 +1,12 @@
 package js.runtime;
 
-import js.storage.Heap;
+import js.storage.JSHeap;
 
 public class JSValuePtr {
-  private final Heap heap;
+  protected final JSHeap heap;
   private int index = 0;
 
-  public JSValuePtr(Heap heap, int index) {
+  public JSValuePtr(JSHeap heap, int index) {
     this.heap = heap;
     this.index = index;
   }
@@ -19,47 +19,47 @@ public class JSValuePtr {
     return index;
   }
 
-  public Heap getHeap() {
+  public JSHeap getHeap() {
     return heap;
   }
 
   public boolean isNumber() {
     JSValue value = toJSValue();
-    return value.type == ValueType.NUMBER;
+    return value.instance_type == InstanceType.NUMBER;
   }
 
   public boolean isString() {
     JSValue value = toJSValue();
-    return value.type == ValueType.STRING;
+    return value.instance_type == InstanceType.STRING;
   }
 
   public boolean isBoolean() {
     JSValue value = toJSValue();
-    return value.type == ValueType.BOOLEAN;
+    return value.instance_type == InstanceType.BOOLEAN;
   }
 
   public boolean isObject() {
     JSValue value = toJSValue();
-    return value.type == ValueType.OBJECT;
+    return value.instance_type == InstanceType.OBJECT;
   }
 
   public boolean isFunction() {
     JSValue value = toJSValue();
-    return value.type == ValueType.FUNCTION;
+    return value.instance_type == InstanceType.FUNCTION;
   }
 
   public boolean isSymbol() {
     JSValue value = toJSValue();
-    return value.type == ValueType.SYMBOL;
+    return value.instance_type == InstanceType.SYMBOL;
   }
 
   public boolean isAccessorPair() {
     JSValue value = toJSValue();
-    return value.type == ValueType.ACCESSOR_PAIR;
+    return value.instance_type == InstanceType.ACCESSOR_PAIR;
   }
 
   protected JSValue toJSValue() {
-    return heap.at(index);
+    return heap.get(index);
   }
 
   protected JSValuePtr toJSValuePtr() {
@@ -68,6 +68,10 @@ public class JSValuePtr {
 
   public AccessorPairPtr toAccessorPairPtr() {
     return (AccessorPairPtr) this;
+  }
+
+  public JSNumberPtr toJSNumberPtr() {
+    return (JSNumberPtr) this;
   }
 
   public AccessorPair toAccessorPair() {

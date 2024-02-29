@@ -11,7 +11,7 @@ import js.runtime.JSValue;
 import js.runtime.JSValuePtr;
 import js.runtime.Oddball;
 import js.runtime.OddballKind;
-import js.runtime.ValueType;
+import js.runtime.InstanceType;
 
 public class Heap {
   private JSValue[] storage;
@@ -68,24 +68,24 @@ public class Heap {
   }
 
   public JSValuePtr allocate(JSValue value) {
-    int current = index;
+    //int current = index;
     storage[index++] = value;
-    return new JSValuePtr(this, current);
+    return null;
   }
 
   public JSStringPtr allocateExternalString(String value) {
     JSString string = new JSString();
-    string.type = ValueType.STRING;
+    string.instance_type = InstanceType.STRING;
     string.value = value;
     JSValuePtr valueptr = allocate(string);
     stringCache.put(value, valueptr.getIndex());
 
-    return new JSStringPtr(this, valueptr.getIndex());
+    return null;
   }
 
   public JSNumberPtr allocateNumber(double value) {
     JSNumber number = new JSNumber();
-    number.type = ValueType.NUMBER;
+    number.instance_type = InstanceType.NUMBER;
     number.value = value;
     return (JSNumberPtr) allocate(number);
   }
@@ -94,12 +94,12 @@ public class Heap {
     Heap heap = new Heap(size);
 
     JSNumber zeroNumber = new JSNumber();
-    zeroNumber.type = ValueType.NUMBER;
+    zeroNumber.instance_type = InstanceType.NUMBER;
     zeroNumber.value = 0.0;
     heap.zero_value = heap.allocate(zeroNumber);
     
     JSNumber nanValue = new JSNumber();
-    nanValue.type = ValueType.NUMBER;
+    nanValue.instance_type = InstanceType.NUMBER;
     nanValue.value = Double.NaN;
     heap.nan_value = heap.allocate(nanValue);
 

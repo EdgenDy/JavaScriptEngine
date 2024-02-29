@@ -1,10 +1,18 @@
 package js.runtime;
 
-import js.storage.Heap;
+import js.storage.JSHeap;
 
 public class JSObjectPtr extends JSValuePtr {
-  public JSObjectPtr(Heap heap, int index) {
+  public JSObjectPtr(JSHeap heap, int index) {
     super(heap, index);
+  }
+
+  public JSValuePtr get(NamePtr name) {
+    return JS.get(heap, toJSObject(), name);
+  }
+
+  public boolean set(NamePtr name, JSValuePtr value) {
+    return JS.set(heap, toJSObject(), name, value);
   }
 
   public JSValuePtr getProperty(NamePtr name) {
@@ -17,6 +25,20 @@ public class JSObjectPtr extends JSValuePtr {
     return value;
   }
 
+  public void setProperty(NamePtr name, DescriptorPtr descriptor) {
+    DescriptorPtr current = getDescriptor(name);
+    if (current == null) {
+      
+    }
+
+    JSValuePtr value = current.value();
+    if (value.isAccessorPair()) {
+      if (value.toAccessorPair().get != null) {
+        // calling the set accessor function
+      }
+    }
+  }
+
   public DescriptorPtr getDescriptor(NamePtr name) {
     JSObject object = toJSObject();
     DescriptorPtr descriptor = object.properties.get(name);
@@ -25,14 +47,20 @@ public class JSObjectPtr extends JSValuePtr {
     return descriptor;
   }
 
-  public void setDescriptor(NamePtr name, DescriptorPtr descriptor) {
+  public boolean setDescriptor(NamePtr name, DescriptorPtr descriptor) {
     DescriptorPtr current = getDescriptor(name);
-    if (current != null) {
-
-      return;
+    if (current == null) {
+      JSObject object = toJSObject();
+      object.properties.put(name, descriptor);
+      return true;
     }
-    JSObject object = toJSObject();
-    object.properties.put(name, descriptor);
+
+    Descriptor current_descriptor = current.toDescriptor();
+
+    if (JS.isDontDelete(current_descriptor)) {
+      
+    }
+    return true;
   }
 
   public JSValuePtr constructor() {

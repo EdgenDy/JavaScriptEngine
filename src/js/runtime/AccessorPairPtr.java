@@ -1,9 +1,9 @@
 package js.runtime;
 
-import js.storage.Heap;
+import js.storage.JSHeap;
 
 public class AccessorPairPtr extends JSValuePtr {
-  public AccessorPairPtr(Heap heap, int index) {
+  public AccessorPairPtr(JSHeap heap, int index) {
     super(heap, index);
   }
 }
